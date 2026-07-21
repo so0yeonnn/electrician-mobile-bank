@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#13243b">
+  <meta name="description" content="개인용 전기기사 실제 복원 기출 모바일 문제은행">
+  <title>전기기사 기출은행</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header><button class="brand" data-view="home">⚡ <b>전기기사 기출은행</b></button><div class="date"><small>시험일</small><b>2026.09.01</b><em id="dday"></em></div></header>
+  <main id="app"></main>
+  <nav><button data-view="home">홈</button><button data-view="banks">기출</button><button data-view="records">기록</button><button data-view="settings">설정</button></nav>
+  <div id="toast" role="status"></div>
+  <input id="bank-picker" type="file" accept=".bank,application/gzip" multiple hidden>
+  <script src="app.js"></script>
+</body>
+</html>
