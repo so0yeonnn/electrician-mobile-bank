@@ -31,11 +31,12 @@ jobs:
                   p = Path(name)
                   if p.is_absolute() or '..' in p.parts:
                       raise ValueError('Invalid archive path')
-                  if name.startswith('study/') or name == 'sw.js':
+                  if name.startswith(('study/', 'learn/')) or name == 'sw.js':
                       z.extract(name, '_site')
           pack = json.loads(Path('_site/study/content/starter.json').read_text())
           assert all(q['type'] == 'generated' for d in pack['days'] for q in d['questions'])
           assert Path('_site/study/index.html').is_file()
+          assert Path('_site/learn/index.html').is_file()
           PYCODE
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
