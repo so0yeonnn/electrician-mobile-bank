@@ -18,11 +18,29 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Prepare public site
+        shell: bash
+        run: |
+          mkdir -p _site
+          cp index.html app.js styles.css icon.svg manifest.webmanifest sw.js _site/
+          python3 - <<'PYCODE'
+          import zipfile, json
+          from pathlib import Path
+          with zipfile.ZipFile('electric-note-github-upload.zip') as z:
+              for name in z.namelist():
+                  p = Path(name)
+                  if p.is_absolute() or '..' in p.parts:
+                      raise ValueError('Invalid archive path')
+                  if name.startswith('study/') or name == 'sw.js':
+                      z.extract(name, '_site')
+          pack = json.loads(Path('_site/study/content/starter.json').read_text())
+          assert all(q['type'] == 'generated' for d in pack['days'] for q in d['questions'])
+          assert Path('_site/study/index.html').is_file()
+          PYCODE
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: _site
       - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v4
-
